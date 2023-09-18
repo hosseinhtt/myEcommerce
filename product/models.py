@@ -1,5 +1,7 @@
 from django.db import models
+# Create your models here.
 from django.db.models import PROTECT
+
 from core.models import BaseModel, BaseDiscount
 
 

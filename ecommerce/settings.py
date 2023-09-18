@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from decouple import Config, Csv
-
+# from config2py import Config
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "The Shop Admin",
@@ -161,6 +161,8 @@ INSTALLED_APPS = [
     'sass_processor',  # Using Scss and Sass files on project
     'mathfilters',  # Allowing the math operations on dtl.
 
+    'azbankgateways',
+
     # my apps
     'core',
     'customer',
@@ -211,27 +213,28 @@ WSGI_APPLICATION = "ecommerce.wsgi.application"
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ecommerce',
-#         'USER': 'hashtt',
-#         'PASSWORD': 'hash123456',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#         'PORT': '3306',
-#     }
-# }
-config = Config()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASS'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'NAME': 'ecommerce',
+        'USER': 'hashtt',
+        'PASSWORD': 'hash123456',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
+# config = Config(repository='C:\\Users\\hosse\\Desktop\\pyProject2')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASS'),
+#         'HOST': config('DB_HOST'),
+#         'PORT': config('DB_PORT'),
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -301,3 +304,58 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'seven.number73@gmail.com'
 EMAIL_HOST_PASSWORD = 'fsyqpavdvvguxkwn'
+
+
+IDPAY_MERCHANT_CODE = {'X-API-KEY': '6257aa88-53c7-4713-9fa7-3b8857297ad9'}
+
+AZ_IRANIAN_BANK_GATEWAYS = {
+    'GATEWAYS': {
+        'BMI': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+            'TERMINAL_CODE': '<YOUR TERMINAL CODE>',
+            'SECRET_KEY': '<YOUR SECRET CODE>',
+        },
+        'SEP': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+            'TERMINAL_CODE': '<YOUR TERMINAL CODE>',
+        },
+        'ZARINPAL': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+            'SANDBOX': 0,  # 0 disable, 1 active
+        },
+        'IDPAY': {
+            'MERCHANT_CODE': '6257aa88-53c7-4713-9fa7-3b8857297ad9',
+            'X-API-KEY': '6257aa88-53c7-4713-9fa7-3b8857297ad9',
+            'METHOD': 'POST',  # GET or POST
+            'X_SANDBOX': 1,  # 0 disable, 1 active
+        },
+        'ZIBAL': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+        },
+        'BAHAMTA': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+        },
+        'MELLAT': {
+            'TERMINAL_CODE': '<YOUR TERMINAL CODE>',
+            'USERNAME': '<YOUR USERNAME>',
+            'PASSWORD': '<YOUR PASSWORD>',
+        },
+        'PAYV1': {
+            'MERCHANT_CODE': '<YOUR MERCHANT CODE>',
+            'X_SANDBOX': 0,  # 0 disable, 1 active
+        },
+    },
+    'IS_SAMPLE_FORM_ENABLE': True,  # اختیاری و پیش فرض غیر فعال است
+    'DEFAULT': 'IDPAY',
+    'CURRENCY': 'IRR',  # اختیاری
+    'TRACKING_CODE_QUERY_PARAM': 'tc',  # اختیاری
+    'TRACKING_CODE_LENGTH': 16,  # اختیاری
+    'SETTING_VALUE_READER_CLASS': 'azbankgateways.readers.DefaultReader',  # اختیاری
+    'BANK_PRIORITIES': [
+        'IDPAY',
+
+        # and so on ...
+    ],  # اختیاری
+    'IS_SAFE_GET_GATEWAY_PAYMENT': False,  # اختیاری، بهتر است True بزارید.
+    'CUSTOM_APP': None,  # اختیاری
+}
